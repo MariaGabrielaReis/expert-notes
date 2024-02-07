@@ -1,6 +1,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
 import { ChangeEvent, FormEvent, useState } from "react";
+import { toast } from "sonner";
 
 export function NewNoteCard() {
   const [shouldShowOnboarding, setShouldShowOnboarding] = useState(true);
@@ -14,10 +15,13 @@ export function NewNoteCard() {
   function handleSaveNote(event: FormEvent) {
     event.preventDefault();
     console.log(content);
+
+    toast.success("Nota criada com sucesso!");
+    setShouldShowOnboarding(true);
   }
 
   return (
-    <Dialog.Root>
+    <Dialog.Root onOpenChange={open => !open && setShouldShowOnboarding(true)}>
       <Dialog.Trigger className="text-left flex flex-col rounded-md bg-zinc-700 p-5 gap-3 outline-none hover:ring-2 hover:ring-zinc-600 focus-visible:ring-2 focus-visible:ring-pink-400 overflow-hidden">
         <span className="text-sm font-medium text-zinc-200">
           Adicionar uma nota
@@ -64,12 +68,14 @@ export function NewNoteCard() {
               )}
             </div>
 
-            <button
-              type="button"
-              className="w-full py-4 bg-pink-400 text-center text-sm text-pink-950 outline-none font-medium hover:bg-pink-500"
-            >
-              Salvar nota
-            </button>
+            {content && (
+              <button
+                type="submit"
+                className="w-full py-4 bg-pink-400 text-center text-sm text-pink-950 outline-none font-medium hover:bg-pink-500 disabled:bg-pink-700"
+              >
+                Salvar nota
+              </button>
+            )}
           </form>
         </Dialog.Content>
       </Dialog.Portal>
