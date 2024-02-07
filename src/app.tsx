@@ -6,11 +6,17 @@ import { NoteCard } from "./components/note-card";
 type Note = { id: string; date: Date; content: string };
 
 export function App() {
-  const [notes, setNotes] = useState<Note[]>([]);
+  const [notes, setNotes] = useState<Note[]>(() => {
+    const notesOnStorage = localStorage.getItem("@expert-notes:notes");
+    if (notesOnStorage) return JSON.parse(notesOnStorage);
+    return [];
+  });
 
   function onNoteCreated(content: string) {
     const newNote = { id: crypto.randomUUID(), date: new Date(), content };
-    setNotes(prev => [newNote, ...prev]);
+    const newNotes = [newNote, ...notes];
+    setNotes(newNotes);
+    localStorage.setItem("@expert-notes:notes", JSON.stringify(newNotes));
   }
 
   return (
