@@ -1,8 +1,18 @@
+import { useState } from "react";
 import logo from "./assets/logo.svg";
 import { NewNoteCard } from "./components/new-note-card";
 import { NoteCard } from "./components/note-card";
 
+type Note = { id: string; date: Date; content: string };
+
 export function App() {
+  const [notes, setNotes] = useState<Note[]>([]);
+
+  function onNoteCreated(content: string) {
+    const newNote = { id: crypto.randomUUID(), date: new Date(), content };
+    setNotes(prev => [newNote, ...prev]);
+  }
+
   return (
     <div className="mx-auto max-w-6xl my-12 space-y-6">
       <img src={logo} alt="Expert Notes" />
@@ -18,9 +28,11 @@ export function App() {
       <div className="h-px bg-zinc-700" />
 
       <div className="grid grid-cols-3 gap-6 auto-rows-[250px]">
-        <NewNoteCard />
+        <NewNoteCard onNoteCreated={onNoteCreated} />
 
-        <NoteCard note={{ date: new Date(), content: "Hello!" }} />
+        {notes.map(note => (
+          <NoteCard key={note.id} note={note} />
+        ))}
       </div>
     </div>
   );
