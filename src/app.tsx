@@ -1,4 +1,5 @@
 import logo from "./assets/logo.svg";
+import { NewNoteCard } from "./components/new-note-card";
 import { NoteCard } from "./components/note-card";
 
 export function App() {
@@ -17,15 +18,7 @@ export function App() {
       <div className="h-px bg-zinc-700" />
 
       <div className="grid grid-cols-3 gap-6 auto-rows-[250px]">
-        <div className="rounded-md bg-zinc-700 p-5 space-y-3">
-          <span className="text-sm font-medium text-zinc-200">
-            Adicionar uma nota
-          </span>
-          <p className="text-sm leading-6 text-zinc-400">
-            Grave uma nota em áudio que será convertida para texto
-            automaticamente.
-          </p>
-        </div>
+        <NewNoteCard />
 
         <NoteCard note={{ date: new Date(), content: "Hello!" }} />
       </div>
