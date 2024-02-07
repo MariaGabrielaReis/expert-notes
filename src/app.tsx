@@ -20,6 +20,12 @@ export function App() {
     localStorage.setItem("@expert-notes:notes", JSON.stringify(newNotes));
   }
 
+  function onNoteDeleted(id: string) {
+    const notesArray = notes.filter(note => note.id !== id);
+    setNotes(notesArray);
+    localStorage.setItem("@expert-notes:notes", JSON.stringify(notesArray));
+  }
+
   const filteredNotes =
     search !== ""
       ? notes.filter(note =>
@@ -42,11 +48,11 @@ export function App() {
 
       <div className="h-px bg-zinc-700" />
 
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6 auto-rows-[250px]">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[250px]">
         <NewNoteCard onNoteCreated={onNoteCreated} />
 
         {filteredNotes.map(note => (
-          <NoteCard key={note.id} note={note} />
+          <NoteCard key={note.id} note={note} onNoteDeleted={onNoteDeleted} />
         ))}
       </div>
     </div>

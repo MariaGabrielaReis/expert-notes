@@ -62,7 +62,14 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
   }
 
   return (
-    <Dialog.Root onOpenChange={open => !open && setShouldShowOnboarding(true)}>
+    <Dialog.Root
+      onOpenChange={open => {
+        if (!open) {
+          setContent("");
+          setShouldShowOnboarding(true);
+        }
+      }}
+    >
       <Dialog.Trigger className="text-left flex flex-col rounded-md bg-zinc-700 p-5 gap-3 outline-none hover:ring-2 hover:ring-zinc-600 focus-visible:ring-2 focus-visible:ring-pink-400 overflow-hidden">
         <span className="text-sm font-medium text-zinc-200">
           Adicionar uma nota
